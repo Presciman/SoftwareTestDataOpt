@@ -1,0 +1,39 @@
+function [routeNum,access,relData] = testData( initpop,nums,bubbleTest,dim)
+%initpop 初始种群大小
+%nums  迭代次数
+%bubbleTest   测试函数
+%dim  冒泡排序的维度
+%？？？？？？？？？？？10 区间范围 后续参数传递
+% ？？？？？？？？？？ 3  维度   后续参数传递
+% 初始种群
+% 记录每条路径的测试数据的个数
+
+%  冒泡排序的不可达路径  通过这个绘制饼状图
+% 可达路径
+m=factorial(dim);
+% 路径总数
+n=2^(dim*(dim-1)/2);
+
+%  保存值
+relData=zeros(n,dim);
+while(nums>=0)
+    init=ceil(100*rand(initpop,dim));
+    nums=nums-1;
+    % ?????????  8  路径条数   后续参数传递
+    route=zeros(1,n);
+    for i=1:size(init,1)
+        %调用bubble函数 返回第几条路径
+        rel=bubbleTest(init(i,:));
+        %记录通过这个路径的数据个数
+        route(rel+1)=route(rel+1)+1;
+        %将数据结果保存到relData
+        relData(rel+1,:)=init(i,:);
+    end   
+end
+%可达路径 与不可达路径
+routeNum=route;
+%可达路径中  已经找到
+mfind=length(find(routeNum));   
+access=[mfind,m-mfind,n-m];
+end
+
